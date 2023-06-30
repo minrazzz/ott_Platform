@@ -107,6 +107,9 @@ const Container = styled.div`
                   padding: 0.5rem 1rem;
                   width: 15rem;
                }
+               .error {
+                  color: #e50914;
+               }
                button {
                   padding: 0.5rem 1rem;
                   background-color: #e50914;

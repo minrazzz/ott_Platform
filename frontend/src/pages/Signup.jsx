@@ -119,9 +119,9 @@ const Container = styled.div`
       }
       .form {
          display: grid;
-
          grid-template-columns: ${({ showPassword }) =>
             showPassword ? "1fr 1fr" : "2fr 1fr"};
+
          width: 60%;
          input {
             color: black;
