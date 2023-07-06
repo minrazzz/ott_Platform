@@ -7,10 +7,39 @@ import { RiThumbUpFill, RiThumbDownFill } from "react-icons/ri";
 import { BsCheck } from "react-icons/bs";
 import { AiOutlinePlus } from "react-icons/ai";
 import { BiChevronDown } from "react-icons/bi";
+import { firebaseAuth } from "../utils/firebase-config";
+import { onAuthStateChanged } from "firebase/auth";
+import axios from "axios";
 
 const Card = ({ movieData, isLiked = false }) => {
    const [isHovered, setIsHovered] = useState(false);
+   const [email, setEmail] = useState(undefined);
    const navigate = useNavigate();
+   // console.log(movieData);
+
+   onAuthStateChanged(firebaseAuth, (currentUser) => {
+      if (currentUser) setEmail(currentUser.email);
+      else navigate("/login");
+   });
+
+   const addToList = async () => {
+      try {
+         const response = await axios({
+            method: "post",
+            url: "http://localhost:8000/api/user/add",
+            data: {
+               email,
+               data: movieData,
+            },
+         });
+
+         const data = response.data;
+         console.log(data);
+      } catch (error) {
+         console.log(error);
+      }
+   };
+
    return (
       <Container
          onMouseEnter={() => setIsHovered(true)}
@@ -51,7 +80,10 @@ const Card = ({ movieData, isLiked = false }) => {
                         {isLiked ? (
                            <BsCheck title="Remove From List" />
                         ) : (
-                           <AiOutlinePlus title="Add To My List" />
+                           <AiOutlinePlus
+                              title="Add To My List"
+                              onClick={addToList}
+                           />
                         )}
                      </div>
                      <div className="info">

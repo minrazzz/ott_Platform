@@ -24,6 +24,7 @@ const Login = () => {
       }
    };
    const navigate = useNavigate();
+
    onAuthStateChanged(firebaseAuth, (currentUser) => {
       if (currentUser) navigate("/");
    });
